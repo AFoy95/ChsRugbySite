@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component} from "react";
 import { Link } from "react-router-dom";
 import "./auth.css";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect,redirect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
 class Login extends Component {
@@ -15,9 +15,18 @@ class Login extends Component {
     };
   }
   
+  componentDidMount() {
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+  
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/"); // push user to dashboard when they login
+      this.props.history.push("/Dashboard"); // push user to dashboard when they login
+      
     }
 if (nextProps.errors) {
       this.setState({
@@ -35,6 +44,7 @@ const userData = {
       password: this.state.password
     };
     this.props.loginUser(userData);
+    
   };
 render() {
     const { errors } = this.state;
@@ -67,7 +77,7 @@ return (
                   })}
                 />
                 <label htmlFor="email">Email</label>
-                <span className="red-text">
+                <span id="bad-text" className="red-text">
                   {errors.email}
                   {errors.emailnotfound}
                 </span>
@@ -84,7 +94,7 @@ return (
                   })}
                 />
                 <label htmlFor="password">Password</label>
-                <span className="red-text">
+                <span id="bad-text" className="red-text">
                   {errors.password}
                   {errors.passwordincorrect}
                 </span>

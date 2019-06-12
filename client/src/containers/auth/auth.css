@@ -6,3 +6,23 @@
     width:50%;
     background-color: gold;
 }
+
+#name{
+    background-color:darkgray; 
+}
+
+#email{
+    background-color:darkgray; 
+}
+
+#password{
+    background-color:darkgray; 
+}
+
+#password2{
+    background-color:darkgray; 
+}
+
+#bad-text{
+    background-color:red;
+}

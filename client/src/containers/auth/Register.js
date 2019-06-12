@@ -17,7 +17,12 @@ class Register extends Component {
       errors: {}
     };
   }
-  
+  componentDidMount() {
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
@@ -37,7 +42,7 @@ const newUser = {
       password: this.state.password,
       password2: this.state.password2
     };
-    this.props.registerUser(newUser, this.props.history); 
+    this.props.registerUser(newUser, this.props.history);
   };
 render() {
     const { errors } = this.state;
@@ -70,7 +75,7 @@ return (
                   })}
                 />
                 <label htmlFor="name">Name</label>
-                <span className="red-text">{errors.name}</span>
+                <span id="bad-text" className="red-text">{errors.name}</span>
               </div>
               <div className="input-field col s12">
                 <input
@@ -84,7 +89,7 @@ return (
                   })}
                 />
                 <label htmlFor="email">Email</label>
-                <span className="red-text">{errors.email}</span>
+                <span id="bad-text" className="red-text">{errors.email}</span>
               </div>
               <div className="input-field col s12">
                 <input
@@ -98,7 +103,7 @@ return (
                   })}
                 />
                 <label htmlFor="password">Password</label>
-                <span className="red-text">{errors.password}</span>
+                <span id="bad-text" className="red-text">{errors.password}</span>
               </div>
               <div className="input-field col s12">
                 <input
@@ -112,9 +117,8 @@ return (
                   })}
                 />
                 <label htmlFor="password2">Confirm Password</label>
-                <span className="red-text">{errors.password2}</span>
+                <span id="bad-text" className="red-text">{errors.password2}</span>
               </div>
-              </form>
               <button
                   style={{
                     width: "150px",
@@ -128,6 +132,7 @@ return (
                 >
                   Sign up
                 </button>
+                </form>
           </div>
         </div>
       </div>

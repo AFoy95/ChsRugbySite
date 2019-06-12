@@ -7,6 +7,7 @@ import {
   USER_LOADING
 } from "./types";
 // Register User
+const mongoose = require("mongoose");
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/users/register", userData)
@@ -19,7 +20,7 @@ export const registerUser = (userData, history) => dispatch => {
     );
 };
 // Login - get user token
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData,history) => dispatch => {
   axios
     .post("/api/users/login", userData)
     .then(res => {
@@ -33,6 +34,7 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded));
+      //Navigate Back to the home page
     })
     .catch(err =>
       dispatch({
@@ -55,11 +57,35 @@ export const setUserLoading = () => {
   };
 };
 // Log user out
-export const logoutUser = () => dispatch => {
+export const logoutUser = (history) => dispatch => {
   // Remove token from local storage
   localStorage.removeItem("jwtToken");
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
-  dispatch(setCurrentUser({}));
+  setCurrentUser({});
+  //Reload the homepage
+  
+};
+
+export const isLoggedin=()=>{
+  const logged=localStorage.getItem("jwtToken");
+  if(logged !== null){
+    return true;
+  }else{
+    return false;
+  }
+};
+
+export const getUser=()=>{
+
+};
+
+export const uploadphoto=photo=>{
+axios.post("/api/photos/photos",photo).then(res=>{
+    alert("The photo has been uploaded");
+  })
+  .catch(err =>{
+    alert(err)
+  })
 };
